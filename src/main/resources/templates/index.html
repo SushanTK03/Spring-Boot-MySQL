@@ -6,7 +6,7 @@
 
 <style>
 .button {
-	background-color: #008CBA;; /* Green */
+	background-color: #008CBA; /* Blue */
 	border: none;
 	color: white;
 	padding: 10px 25px;
@@ -14,8 +14,42 @@
 	text-decoration: none;
 	display: inline-block;
 	font-size: 12px;
+	cursor: pointer;
 }
+
+.delete-button {
+	background-color: #f44336; /* Red */
+	border: none;
+	color: white;
+	padding: 8px 16px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12px;
+	cursor: pointer;
+}
+
 </style>
+
+<script>
+    function deleteBook(bookId) {
+        if (confirm("Are you sure you want to delete this book?")) {
+            fetch(`/book/${bookId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Book deleted successfully.");
+                    // Reload the page to reflect the changes
+                    window.location.reload();
+                } else {
+                    alert("Error: Book could not be deleted.");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    }
+</script>
 
 </head>
 <body>
@@ -35,8 +69,8 @@
 				<td>Book Price</td>
 				<td><input type="text" th:field="*{bookPrice}" /></td>
 			</tr>
-						<tr>
-				<td>Book Price</td>
+			<tr>
+				<td>Language</td>
 				<td><input type="text" th:field="*{language}" /></td>
 			</tr>
 			<tr>
@@ -48,12 +82,15 @@
 
 	<hr />
 
+	<!-- Book List Table -->
 	<table th:if="${not #lists.isEmpty(books)}" border="1">
 		<tr>
 			<th>Id</th>
 			<th>Name</th>
 			<th>Price</th>
 			<th>Author Name</th>
+			<th>Language</th>
+			<th>Action</th>
 		</tr>
 		<tr th:each="book : ${books}">
 			<td th:text="${book.bookId}"></td>
@@ -61,22 +98,24 @@
 			<td th:text="${book.bookPrice}"></td>
 			<td th:text="${book.authorName}"></td>
 			<td th:text="${book.language}"></td>
+			<td>
+				<!-- Delete Button -->
+				<button class="delete-button" type="button" th:onclick="'deleteBook(' + ${book.bookId} + ')'">Delete</button>
+			</td>
 		</tr>
 	</table>
 
 	<hr />
 
-
-	<h1>Mr.</h1>
+	<h1>Mr. Sushant</h1>
 
 	<p>Email: sushantkbemech.com</p>
 	<p>
 		Visit : <a href="https://github.com/SushanTK03">Github Page</a>
 	</p>
 	<p>
-		<b> Copy Rights @ SushanT </b>
+		<b>Copy Rights @ SushanT</b>
 	</p>
-
 
 </body>
 </html>
