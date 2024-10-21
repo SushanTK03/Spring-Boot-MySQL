@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.app.sushant.binding.Book;
 import com.app.sushant.repository.BookRepository;
@@ -54,7 +55,7 @@ public class BookController {
 		return "index";
 	}
 		
-		@DeleteMapping("/{bookId}")
+		@DeleteMapping("/book/{bookId}")
 		@ResponseBody
 		public ResponseEntity<String> deleteBookById(@PathVariable("bookId") Long bookId) {
 			logger.info("*** deleteBookById() method execution start ***");
